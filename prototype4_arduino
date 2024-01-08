@@ -1,26 +1,15 @@
-#include <ros.h>
-#include <std_msgs/Int8.h>
 #include <SFE_BMP180.h>
 #include <dht11.h> 
-
+#include <Wire.h>
+#include <ros.h>
+#include <std_msgs/Float32.h>
+#include <std_msgs/UInt8.h>
 #define DHT11PIN 34
 
 SFE_BMP180 temp;
 dht11 DHT11;
 
-// Stepper Constants
-const int DIR = 12;
-const int STEP = 14;
-const int  steps_per_rev = 200;
-
-// Pump Constants
-int STBY = 32; //standby
-int PWMA = 26; //Speed control 
-int AIN1 = 25; //Direction
-int AIN2 = 33; //Direction
-
 ros::NodeHandle nh;
-
 std_msgs::Float32 bmp180_temperature_msg;
 std_msgs::Float32 bmp180_pressure_msg;
 std_msgs::Float32 dht11_humidity_msg;
@@ -28,105 +17,31 @@ ros::Publisher bmp180_temperature("bmp180_temperature",&bmp180_temperature_msg);
 ros::Publisher bmp180_pressure("bmp180_pressure",&bmp180_pressure_msg);
 ros::Publisher dht11_humidity("dht11_humidity",&dht11_humidity_msg);
 
-void move(int motor, int speed, int direction){
-//speed: 0 is off, and 255 is full speed
-//direction: 0 clockwise, 1 counter-clockwise
-  digitalWrite(STBY, HIGH); 
-  boolean inPin1 = LOW;
-  boolean inPin2 = HIGH;
-  if(direction == 1){
-    inPin1 = HIGH;
-    inPin2 = LOW;
-  }
-
-  if(motor == 1){
-    digitalWrite(AIN1, inPin1);
-    digitalWrite(AIN2, inPin2);
-    analogWrite(PWMA, speed);
-}
-
-void stop(){
-//enable standby  
-  digitalWrite(STBY, LOW); 
-  delay(200);
-}
-
-void pump1_cb(const std_msgs::Int8& cmd_msg)
+void pump_l_callback(const std_msgs::UInt8& msg)
 {
-  if (int(cmd_msg.data) == 1)
-  {
-    move(1, 255, 1);
-    delay(5000);
-    stop();
-  }
+  int status = msg.data
+  if status == 1:
+    digitalWrite(14, HIGH);
+    delay(4000);
+    digitalWrite(14, LOW);
 }
 
-void spectro_cb(const std_msgs::Int8& cmd_msg)
-{
-  int n = int(cmd_msg);
-   if(n==1)
-  {
-    for(int i = 0; i<30; i++)
-  {
-    digitalWrite(STEP, HIGH);
-    delayMicroseconds(2000);
-    digitalWrite(STEP, LOW);
-    delayMicroseconds(2000);
-  }
-  }
- 
-  if(n==2)
-  {
-    for(int i = 0; i<30; i++)
-  {
-    digitalWrite(STEP, HIGH);
-    delayMicroseconds(2000);
-    digitalWrite(STEP, LOW);
-    delayMicroseconds(2000);
-  }
-  delay(10000);
-  for(int i = 0; i<90; i++)
-  {
-    digitalWrite(STEP, HIGH);
-    delayMicroseconds(2000);
-    digitalWrite(STEP, LOW);
-    delayMicroseconds(2000);
-  }
-  }
-  if(n==3)
-  {for(int i = 0; i<150; i++)
-  {
-    digitalWrite(STEP, HIGH);
-    delayMicroseconds(2000);
-    digitalWrite(STEP, LOW);
-    delayMicroseconds(2000);
-  }
-}
+ros::Subscriber<std_msgs::UInt8> pump_l_status("pump_l_status", &pump_l_callback);
 
-ros::Subscriber<std_msgs::Int8> pump_l_sub("pump_l_status", pump1_cb);
-ros::Subscriber<std_msgs::Int8> spectro_sub("spectro_status", spectro_cb);
-
-void setup(){
-  pinMode(STBY, OUTPUT);
-  pinMode(PWMA, OUTPUT);
-  pinMode(AIN1, OUTPUT);
-  pinMode(AIN2, OUTPUT);
-  pinMode(STEP, OUTPUT);
-  pinMode(DIR, OUTPUT)
+void setup() {
+  pinMode(14, OUTPUT);
+  digitalWrite(14, LOW);
   nh.getHardware()->setBaud(115200);
   nh.initNode();
-  nh.subscribe(pump_l_sub);
-  nh.subscribe(spectro_sub);
   nh.advertise(bmp180_temperature);
   nh.advertise(bmp180_pressure);
   nh.advertise(dht11_humidity);
   if (temp.begin()){}
   else while(1);
-  
-
 }
 
-  void loop(){
+void loop(){
+  digitalWrite(DIR, HIGH);
 
   // BMP180 temperature and pressure data
   char status;
@@ -146,7 +61,6 @@ void setup(){
     }
   }
 
-
   // DHT11 humidity data
   dht11_humidity_msg.data = (float)DHT11.temperature;
 
@@ -156,3 +70,4 @@ void setup(){
   dht11_humidity.publish(&dht11_humidity_msg);
   delay(500);
 }
+
