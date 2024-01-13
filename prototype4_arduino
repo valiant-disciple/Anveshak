@@ -9,22 +9,27 @@ const int STEP = 14;
 const int  steps_per_rev = 200;
 
 // Pump Constants - L
-int PWMA_L = 33; //Speed control 
-int AIN1_L = 27; //Direction
-int AIN2_L = 25; //Direction
+const int PWMA_L = 33; //Speed control 
+const int AIN1_L = 27; //Direction
+const int AIN2_L = 25; //Direction
 
 // Pump Constants - C
-int PWMA_C = 15; //Speed control 
-int AIN1_C = 4; //Direction
-int AIN2_C = 18; //Direction
+const int PWMA_C = 15; //Speed control 
+const int AIN1_C = 4; //Direction
+const int AIN2_C = 18; //Direction
 
 // Pump Constants - R
-int PWMA_R = 2; //Speed control 
-int AIN1_R = 17; //Direction
-int AIN2_R = 16; //Direction
+const int PWMA_R = 2; //Speed control 
+const int AIN1_R = 17; //Direction
+const int AIN2_R = 16; //Direction
 
 // Halogen Lamp
-const int HALO = 2;
+const int HALO = 5;
+
+// Signal LEDs
+const int PUMP_LED = 3;
+const int SPECTRO_LED = 2;
+
 
 // BMP180
 SFE_BMP180 temp;
@@ -89,20 +94,17 @@ void move(int motor, int speed, int direction){
 }
 }
 
-void stop(){
-//enable standby  
-  digitalWrite(STBY, LOW); 
-  delay(200);
-}
 
 void pump_l_cb(const std_msgs::Int8& cmd_msg)
 {
   if (int(cmd_msg.data) == 1)
   {
+    digitalWrite(PUMP_LED, HIGH);
     move(1, 255, 1);
     delay(5000);
     move(1, 0, 1);
     delay(50);
+    digitalWrite(PUMP_LED, LOW);
   }
 }
 
@@ -110,10 +112,12 @@ void pump_c_cb(const std_msgs::Int8& cmd_msg)
 {
   if (int(cmd_msg.data) == 1)
   {
+    digitalWrite(PUMP_LED, HIGH);
     move(2, 255, 1);
     delay(5000);
     move(2, 0, 1);
     delay(50);
+    digitalWrite(PUMP_LED, LOW);
   }
 }
 
@@ -121,10 +125,12 @@ void pump_r_cb(const std_msgs::Int8& cmd_msg)
 {
   if (int(cmd_msg.data) == 1)
   {
+    digitalWrite(PUMP_LED, HIGH);
     move(3, 255, 1);
     delay(5000);
     move(3, 0, 1);
     delay(50);
+    digitalWrite(PUMP_LED, LOW);
   }
 }
 
@@ -140,8 +146,9 @@ void halo_cb(const std_msgs::Int8& cmd_msg)
 
 void spectro_cb(const std_msgs::Int8& cmd_msg)
 {
+  digitalWrite(SPECTRO_LED, HIGH);
   digitalWrite(DIR, HIGH);
-  int n = int(cmd_msg);
+  int n = int(cmd_msg.data);
    if(n==1)
   {
     for(int i = 0; i<30; i++)
@@ -180,6 +187,7 @@ void spectro_cb(const std_msgs::Int8& cmd_msg)
     delayMicroseconds(2000);
   }
 }
+digitalWrite(SPECTRO_LED, LOW);
 }
 
 ros::Subscriber<std_msgs::Int8> pump_l_sub("pump_l_status", pump_l_cb);
@@ -200,6 +208,8 @@ void setup(){
   pinMode(AIN2_R, OUTPUT);
   pinMode(STEP, OUTPUT);
   pinMode(DIR, OUTPUT);
+  pinMode(PUMP_LED, OUTPUT);
+  pinMode(SPECTRO_LED, OUTPUT);
 
   nh.getHardware()->setBaud(115200);
   nh.initNode();
@@ -244,11 +254,11 @@ void setup(){
   }
 
   // LM393 moisture data
-  int sensor_analog_l = analogRead(LM393L);
+  int sensor_analog_l = analogRead(LM393_L);
   lm393_humidity_l_msg.data = ( 100 - ( (sensor_analog_l/4095.00) * 100 ) );
-  int sensor_analog_c = analogRead(LM393C);
+  int sensor_analog_c = analogRead(LM393_C);
   lm393_humidity_c_msg.data = ( 100 - ( (sensor_analog_c/4095.00) * 100 ) );
-  int sensor_analog_r = analogRead(LM393R);
+  int sensor_analog_r = analogRead(LM393_R);
   lm393_humidity_r_msg.data = ( 100 - ( (sensor_analog_r/4095.00) * 100 ) );
 
   // MLX90614 temperature data
