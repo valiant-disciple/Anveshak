@@ -39,7 +39,7 @@ class Ui_MainWindow(object):
         self.pump_r_pub = rospy.Publisher('pump_r_status', Int8, queue_size = 5)
 
         # Halogen lamp publishers
-        self.halogen_pub = rospy.Publisher('halogen', Int8, queue_size = 5)
+        self.halogen_pub = rospy.Publisher('halo_status', Int8, queue_size = 5)
         time.sleep(1)
         self.halogen_pub.publish(0)
         time.sleep(0.5)
