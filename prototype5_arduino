@@ -26,11 +26,6 @@ const int AIN2_R = 16; //Direction
 // Halogen Lamp
 const int HALO = 5;
 
-// Signal LEDs
-const int PUMP_LED = 3;
-const int SPECTRO_LED = 2;
-
-
 // BMP180
 SFE_BMP180 temp;
 
@@ -146,7 +141,6 @@ void halo_cb(const std_msgs::Int8& cmd_msg)
 
 void spectro_cb(const std_msgs::Int8& cmd_msg)
 {
-  digitalWrite(SPECTRO_LED, HIGH);
   digitalWrite(DIR, HIGH);
   int n = int(cmd_msg.data);
    if(n==1)
@@ -159,7 +153,6 @@ void spectro_cb(const std_msgs::Int8& cmd_msg)
     delayMicroseconds(2000);
   }
   }
- 
   if(n==2)
   {
     for(int i = 0; i<30; i++)
@@ -169,7 +162,6 @@ void spectro_cb(const std_msgs::Int8& cmd_msg)
     digitalWrite(STEP, LOW);
     delayMicroseconds(2000);
   }
-  delay(10000);
   for(int i = 0; i<90; i++)
   {
     digitalWrite(STEP, HIGH);
@@ -187,7 +179,9 @@ void spectro_cb(const std_msgs::Int8& cmd_msg)
     delayMicroseconds(2000);
   }
 }
-digitalWrite(SPECTRO_LED, LOW);
+digitalWrite(HALO, HIGH);
+delay(7000);
+digitalWrite(HALO, LOW);
 }
 
 ros::Subscriber<std_msgs::Int8> pump_l_sub("pump_l_status", pump_l_cb);
@@ -208,8 +202,7 @@ void setup(){
   pinMode(AIN2_R, OUTPUT);
   pinMode(STEP, OUTPUT);
   pinMode(DIR, OUTPUT);
-  pinMode(PUMP_LED, OUTPUT);
-  pinMode(SPECTRO_LED, OUTPUT);
+  pinMode(HALO, OUTPUT);
 
   nh.getHardware()->setBaud(115200);
   nh.initNode();
