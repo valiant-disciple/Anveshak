@@ -1,11 +1,9 @@
 #include <ros.h>
 #include <std_msgs/Int8.h>
-#include <std_msgs/Float32.h>
 #include <SFE_BMP180.h>
 #include <DHT11.h>
 
 // Stepper Constants
-const int DIR = 12;
 const int STEP = 14;
 const int  steps_per_rev = 200;
 
