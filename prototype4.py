@@ -5,8 +5,8 @@ from std_msgs.msg import Float32, Int8, Int16
 import time
 
 class Ui_MainWindow(object):
-    def __init__(self, MainWindow):
-        super(Ui_MainWindow, self).__init__()
+    def _init_(self, MainWindow):
+        super(Ui_MainWindow, self)._init_()
         self.setupUi(MainWindow)
 
         # Initializing ROS node
@@ -250,6 +250,8 @@ class Ui_MainWindow(object):
         self.spectro_l_button.clicked.connect(self.spectro_l_button_clicked)
         self.spectro_c_button.clicked.connect(self.spectro_c_button_clicked)
         self.spectro_r_button.clicked.connect(self.spectro_r_button_clicked)
+        #self.spectro_result_button.clicked.connect(self.spectro_result_button_clicked)
+        #self.color_result_button.clicked.connect(self.color_result_button_clicked)
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -327,23 +329,24 @@ class Ui_MainWindow(object):
     def spectro_l_button_clicked(self):
         self.spectro_status_pub.publish(1)
         time.sleep(0.5)
+        self.halogen_pub.publish(0)
+        time.sleep(0.5)
     
     def spectro_c_button_clicked(self):
         self.spectro_status_pub.publish(2)
+        time.sleep(0.5)
+        self.halogen_pub.publish(0)
         time.sleep(0.5)
     
     def spectro_r_button_clicked(self):
         self.spectro_status_pub.publish(3)
         time.sleep(0.5)
-
-    def pump_l_status_callback(self, msg):
-        self.pump_l_button.setText(str(msg.data))
-
-    def pump_c_status_callback(self, msg):
-        self.pump_c_button.setText(str(msg.data))
-
-    def pump_r_status_callback(self, msg):
-        self.pump_r_button.setText(str(msg.data))
+    
+    def spectro_result_button_clicked(self):
+        self.halogen_pub.publish(1)
+        time.sleep(0.5)
+        self.halogen_pub.publish(0)
+        time.sleep(0.5)
 
 if __name__ == "__main__":
     import sys
@@ -351,5 +354,5 @@ if __name__ == "__main__":
     MainWindow = QtWidgets.QMainWindow()
     ui = Ui_MainWindow(MainWindow)
     MainWindow.show()
-    sys.exit(app.exec_())
     rospy.spin()
+    sys.exit(app.exec_())
