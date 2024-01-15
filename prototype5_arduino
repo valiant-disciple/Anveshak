@@ -1,5 +1,6 @@
 #include <ros.h>
 #include <std_msgs/Int8.h>
+#include <std_msgs/Float32.h>
 #include <SFE_BMP180.h>
 #include <DHT11.h>
 
@@ -93,12 +94,10 @@ void pump_l_cb(const std_msgs::Int8& cmd_msg)
 {
   if (int(cmd_msg.data) == 1)
   {
-    digitalWrite(PUMP_LED, HIGH);
     move(1, 255, 1);
     delay(5000);
     move(1, 0, 1);
     delay(50);
-    digitalWrite(PUMP_LED, LOW);
   }
 }
 
@@ -106,12 +105,10 @@ void pump_c_cb(const std_msgs::Int8& cmd_msg)
 {
   if (int(cmd_msg.data) == 1)
   {
-    digitalWrite(PUMP_LED, HIGH);
     move(2, 255, 1);
     delay(5000);
     move(2, 0, 1);
     delay(50);
-    digitalWrite(PUMP_LED, LOW);
   }
 }
 
@@ -119,12 +116,10 @@ void pump_r_cb(const std_msgs::Int8& cmd_msg)
 {
   if (int(cmd_msg.data) == 1)
   {
-    digitalWrite(PUMP_LED, HIGH);
     move(3, 255, 1);
     delay(5000);
     move(3, 0, 1);
     delay(50);
-    digitalWrite(PUMP_LED, LOW);
   }
 }
 
@@ -209,6 +204,7 @@ void setup(){
   nh.subscribe(pump_c_sub);
   nh.subscribe(pump_r_sub);
   nh.subscribe(spectro_sub);
+  nh.subscribe(halo_sub);
   nh.advertise(bmp180_temperature);
   nh.advertise(bmp180_pressure);
   nh.advertise(dht11_humidity);
