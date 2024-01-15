@@ -48,12 +48,12 @@ class Worker1(QThread):
                 shift_first_image_to_right = 10
                 self.Plot_Spectrum(img1, self.minwavelength, self.maxwavelength, shift_first_image_to_right)
                 frame = self.Plot_DifferenceSpectrum(img1, img2, self.minwavelength, self.maxwavelength, shift_first_image_to_right)
-                print(frame)
                 image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
                 FlippedImage = cv2.flip(image, 1)
                 ConvertToQtFormat = QImage(FlippedImage.data, FlippedImage.shape[1], FlippedImage.shape[0], QImage.Format_RGB888)
                 Pic = ConvertToQtFormat.scaled(640, 480, Qt.KeepAspectRatio)
                 self.ImageUpdate.emit(Pic)
+                self.stop()
                 break
 
     def stop(self):
