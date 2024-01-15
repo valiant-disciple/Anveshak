@@ -1,7 +1,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 import sys
 import rospy
-from std_msgs.msg import Float32, Int8, Int16
+from std_msgs.msg import Float32, Int8
 import time
 import cv2
 from PyQt5.QtGui import *
@@ -9,8 +9,8 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 
 class Ui_MainWindow(object):
-    def __init__(self, MainWindow):
-        super(Ui_MainWindow, self).__init__()
+    def _init_(self, MainWindow):
+        super(Ui_MainWindow, self)._init_()
         self.setupUi(MainWindow)
 
         # Initializing ROS node
@@ -60,13 +60,13 @@ class Ui_MainWindow(object):
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.label_11 = QtWidgets.QLabel(self.centralwidget)
-        self.label_11.setGeometry(QtCore.QRect(290, 540, 101, 16))
+        self.label_11.setGeometry(QtCore.QRect(290, 540, 71, 16))
         self.label_11.setObjectName("label_11")
         self.label_9 = QtWidgets.QLabel(self.centralwidget)
-        self.label_9.setGeometry(QtCore.QRect(60, 570, 71, 16))
+        self.label_9.setGeometry(QtCore.QRect(60, 570, 47, 14))
         self.label_9.setObjectName("label_9")
         self.laBALL = QtWidgets.QLabel(self.centralwidget)
-        self.laBALL.setGeometry(QtCore.QRect(520, 510, 121, 16))
+        self.laBALL.setGeometry(QtCore.QRect(520, 510, 91, 16))
         self.laBALL.setObjectName("laBALL")
         self.label_10 = QtWidgets.QLabel(self.centralwidget)
         self.label_10.setGeometry(QtCore.QRect(500, 30, 481, 371))
@@ -117,7 +117,7 @@ class Ui_MainWindow(object):
         self.line_13.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line_13.setObjectName("line_13")
         self.lm393_humidity_r = QtWidgets.QLabel(self.centralwidget)
-        self.lm393_humidity_r.setGeometry(QtCore.QRect(870, 540, 71, 16))
+        self.lm393_humidity_r.setGeometry(QtCore.QRect(860, 540, 71, 16))
         self.lm393_humidity_r.setText("")
         self.lm393_humidity_r.setObjectName("lm393_humidity_r")
         self.bmp180_temperature = QtWidgets.QLabel(self.centralwidget)
@@ -138,7 +138,7 @@ class Ui_MainWindow(object):
         self.mlx90614_temperature_c.setText("")
         self.mlx90614_temperature_c.setObjectName("mlx90614_temperature_c")
         self.mlx90614_temperature_r = QtWidgets.QLabel(self.centralwidget)
-        self.mlx90614_temperature_r.setGeometry(QtCore.QRect(870, 510, 61, 16))
+        self.mlx90614_temperature_r.setGeometry(QtCore.QRect(860, 510, 61, 16))
         self.mlx90614_temperature_r.setText("")
         self.mlx90614_temperature_r.setObjectName("mlx90614_temperature_r")
         self.bmp180_pressure = QtWidgets.QLabel(self.centralwidget)
@@ -174,7 +174,7 @@ class Ui_MainWindow(object):
         self.label.setAlignment(QtCore.Qt.AlignCenter)
         self.label.setObjectName("label")
         self.label_5 = QtWidgets.QLabel(self.centralwidget)
-        self.label_5.setGeometry(QtCore.QRect(60, 510, 101, 16))
+        self.label_5.setGeometry(QtCore.QRect(60, 510, 81, 16))
         self.label_5.setObjectName("label_5")
         self.line_15 = QtWidgets.QFrame(self.centralwidget)
         self.line_15.setGeometry(QtCore.QRect(950, 450, 20, 191))
@@ -182,7 +182,7 @@ class Ui_MainWindow(object):
         self.line_15.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line_15.setObjectName("line_15")
         self.label_12 = QtWidgets.QLabel(self.centralwidget)
-        self.label_12.setGeometry(QtCore.QRect(520, 540, 101, 16))
+        self.label_12.setGeometry(QtCore.QRect(520, 540, 71, 16))
         self.label_12.setObjectName("label_12")
         self.pump_r_button = QtWidgets.QPushButton(self.centralwidget)
         self.pump_r_button.setGeometry(QtCore.QRect(810, 590, 91, 23))
@@ -198,10 +198,10 @@ class Ui_MainWindow(object):
         self.line_12.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line_12.setObjectName("line_12")
         self.label_13 = QtWidgets.QLabel(self.centralwidget)
-        self.label_13.setGeometry(QtCore.QRect(750, 510, 121, 16))
+        self.label_13.setGeometry(QtCore.QRect(750, 510, 91, 16))
         self.label_13.setObjectName("label_13")
         self.label_7 = QtWidgets.QLabel(self.centralwidget)
-        self.label_7.setGeometry(QtCore.QRect(60, 540, 81, 16))
+        self.label_7.setGeometry(QtCore.QRect(60, 540, 61, 16))
         self.label_7.setObjectName("label_7")
         self.line = QtWidgets.QFrame(self.centralwidget)
         self.line.setGeometry(QtCore.QRect(20, 30, 20, 371))
@@ -213,7 +213,7 @@ class Ui_MainWindow(object):
         self.color_test_feed.setStyleSheet("border-color: rgb(0, 85, 255);")
         self.color_test_feed.setObjectName("color_test_feed")
         self.label_14 = QtWidgets.QLabel(self.centralwidget)
-        self.label_14.setGeometry(QtCore.QRect(750, 540, 111, 16))
+        self.label_14.setGeometry(QtCore.QRect(750, 540, 71, 16))
         self.label_14.setObjectName("label_14")
         self.lm393_humidity_c = QtWidgets.QLabel(self.centralwidget)
         self.lm393_humidity_c.setGeometry(QtCore.QRect(630, 540, 71, 16))
@@ -227,7 +227,7 @@ class Ui_MainWindow(object):
         self.pump_c_button.setGeometry(QtCore.QRect(570, 590, 91, 23))
         self.pump_c_button.setObjectName("pump_c_button")
         self.label_6 = QtWidgets.QLabel(self.centralwidget)
-        self.label_6.setGeometry(QtCore.QRect(290, 510, 111, 16))
+        self.label_6.setGeometry(QtCore.QRect(290, 510, 91, 16))
         self.label_6.setObjectName("label_6")
         self.spectro_l_button = QtWidgets.QPushButton(self.centralwidget)
         self.spectro_l_button.setGeometry(QtCore.QRect(340, 620, 91, 23))
@@ -238,9 +238,6 @@ class Ui_MainWindow(object):
         self.spectro_r_button = QtWidgets.QPushButton(self.centralwidget)
         self.spectro_r_button.setGeometry(QtCore.QRect(810, 620, 91, 23))
         self.spectro_r_button.setObjectName("spectro_r_button")
-        self.spectro_result_button = QtWidgets.QPushButton(self.centralwidget)
-        self.spectro_result_button.setGeometry(QtCore.QRect(660, 410, 141, 23))
-        self.spectro_result_button.setObjectName("spectro_result_button")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 998, 22))
@@ -254,9 +251,11 @@ class Ui_MainWindow(object):
         self.pump_l_button.clicked.connect(self.pump_l_button_clicked)
         self.pump_c_button.clicked.connect(self.pump_c_button_clicked)
         self.pump_r_button.clicked.connect(self.pump_r_button_clicked)
+
         self.spectro_l_button.clicked.connect(self.spectro_l_button_clicked)
         self.spectro_c_button.clicked.connect(self.spectro_c_button_clicked)
         self.spectro_r_button.clicked.connect(self.spectro_r_button_clicked)
+
         self.spectro_result_button.clicked.connect(self.spectro_result_button_clicked)
 
         self.feed_start_button.clicked.connect(self.StartFeed)
@@ -274,23 +273,22 @@ class Ui_MainWindow(object):
         self.laBALL.setText(_translate("MainWindow", "Soil Temperature"))
         self.label_10.setText(_translate("MainWindow", "Spectro Feed"))
         self.label_4.setText(_translate("MainWindow", "Right Box"))
-        self.pump_l_button.setText(_translate("MainWindow", "PUMP"))
+        self.pump_l_button.setText(_translate("MainWindow", "ACTUATE PUMP"))
         self.label_2.setText(_translate("MainWindow", "Left Box"))
         self.label_3.setText(_translate("MainWindow", "Center Box"))
         self.label.setText(_translate("MainWindow", "Atmospheric Conditions"))
         self.label_5.setText(_translate("MainWindow", "Air Temperature  "))
         self.label_12.setText(_translate("MainWindow", "Soil Moisture"))
-        self.pump_r_button.setText(_translate("MainWindow", "PUMP"))
+        self.pump_r_button.setText(_translate("MainWindow", "ACTUATE PUMP"))
         self.label_13.setText(_translate("MainWindow", "Soil Temperature"))
         self.label_7.setText(_translate("MainWindow", "Pressure"))
         self.color_test_feed.setText(_translate("MainWindow", "Color Test Feed"))
         self.label_14.setText(_translate("MainWindow", "Soil Moisture"))
-        self.pump_c_button.setText(_translate("MainWindow", "PUMP"))
+        self.pump_c_button.setText(_translate("MainWindow", "ACTUATE PUMP"))
         self.label_6.setText(_translate("MainWindow", "Soil Temperature"))
         self.spectro_l_button.setText(_translate("MainWindow", "SPECTRO"))
         self.spectro_c_button.setText(_translate("MainWindow", "SPECTRO"))
         self.spectro_r_button.setText(_translate("MainWindow", "SPECTRO"))
-        self.spectro_result_button.setText(_translate("MainWindow", "SPECTRO EVAL"))
 
 
     # Subscriber callback functions
@@ -361,7 +359,7 @@ class Ui_MainWindow(object):
     def ImageUpdateSlot(self, Image):
         self.color_test_feed.setPixmap(QPixmap.fromImage(Image))
 
-    def StopFeed(self):
+    def CancelFeed(self):
         self.Worker1.stop()
 
     def StartFeed(self):
