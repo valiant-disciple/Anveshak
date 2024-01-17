@@ -1,7 +1,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 import sys
 import rospy
-from std_msgs.msg import Float32, Int8
+from std_msgs.msg import Float32, Int8, Int16
 import time
 import cv2
 from PyQt5.QtGui import *
@@ -73,12 +73,11 @@ class Ui_MainWindow(object):
         self.laBALL = QtWidgets.QLabel(self.centralwidget)
         self.laBALL.setGeometry(QtCore.QRect(520, 510, 121, 16))
         self.laBALL.setObjectName("laBALL")
-        self.spectro_feed = QtWidgets.QLabel(self.centralwidget)
-        self.spectro_feed.setGeometry(QtCore.QRect(510, 30, 471, 371))
-        self.spectro_feed.setText("")
-        self.spectro_feed.setObjectName("spectro_feed")
+        self.label_10 = QtWidgets.QLabel(self.centralwidget)
+        self.label_10.setGeometry(QtCore.QRect(500, 30, 481, 371))
+        self.label_10.setObjectName("label_10")
         self.line_3 = QtWidgets.QFrame(self.centralwidget)
-        self.line_3.setGeometry(QtCore.QRect(500, 30, 20, 371))
+        self.line_3.setGeometry(QtCore.QRect(490, 30, 20, 371))
         self.line_3.setFrameShape(QtWidgets.QFrame.VLine)
         self.line_3.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line_3.setObjectName("line_3")
@@ -180,7 +179,7 @@ class Ui_MainWindow(object):
         self.label.setAlignment(QtCore.Qt.AlignCenter)
         self.label.setObjectName("label")
         self.label_5 = QtWidgets.QLabel(self.centralwidget)
-        self.label_5.setGeometry(QtCore.QRect(50, 510, 101, 16))
+        self.label_5.setGeometry(QtCore.QRect(60, 510, 101, 16))
         self.label_5.setObjectName("label_5")
         self.line_15 = QtWidgets.QFrame(self.centralwidget)
         self.line_15.setGeometry(QtCore.QRect(950, 450, 20, 191))
@@ -192,7 +191,7 @@ class Ui_MainWindow(object):
         self.label_12.setObjectName("label_12")
         self.pump_r_button = QtWidgets.QPushButton(self.centralwidget)
         self.pump_r_button.setGeometry(QtCore.QRect(810, 590, 91, 23))
-        self.pump_r_button.setObjectName("pump_r_button")
+        self.pump_r_button.setObjectName("pushButton_5")
         self.line_6 = QtWidgets.QFrame(self.centralwidget)
         self.line_6.setGeometry(QtCore.QRect(30, 390, 481, 16))
         self.line_6.setFrameShape(QtWidgets.QFrame.HLine)
@@ -217,7 +216,6 @@ class Ui_MainWindow(object):
         self.color_test_feed = QtWidgets.QLabel(self.centralwidget)
         self.color_test_feed.setGeometry(QtCore.QRect(30, 30, 481, 371))
         self.color_test_feed.setStyleSheet("border-color: rgb(0, 85, 255);")
-        self.color_test_feed.setText("")
         self.color_test_feed.setObjectName("color_test_feed")
         self.label_14 = QtWidgets.QLabel(self.centralwidget)
         self.label_14.setGeometry(QtCore.QRect(750, 540, 111, 16))
@@ -246,14 +244,8 @@ class Ui_MainWindow(object):
         self.spectro_r_button.setGeometry(QtCore.QRect(810, 620, 91, 23))
         self.spectro_r_button.setObjectName("spectro_r_button")
         self.spectro_result_button = QtWidgets.QPushButton(self.centralwidget)
-        self.spectro_result_button.setGeometry(QtCore.QRect(700, 410, 101, 23))
+        self.spectro_result_button.setGeometry(QtCore.QRect(660, 410, 141, 23))
         self.spectro_result_button.setObjectName("spectro_result_button")
-        self.feed_start_button = QtWidgets.QPushButton(self.centralwidget)
-        self.feed_start_button.setGeometry(QtCore.QRect(150, 410, 75, 23))
-        self.feed_start_button.setObjectName("feed_start_button")
-        self.feed_stop_button = QtWidgets.QPushButton(self.centralwidget)
-        self.feed_stop_button.setGeometry(QtCore.QRect(270, 410, 75, 23))
-        self.feed_stop_button.setObjectName("feed_stop_button")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 998, 22))
@@ -267,11 +259,9 @@ class Ui_MainWindow(object):
         self.pump_l_button.clicked.connect(self.pump_l_button_clicked)
         self.pump_c_button.clicked.connect(self.pump_c_button_clicked)
         self.pump_r_button.clicked.connect(self.pump_r_button_clicked)
-
         self.spectro_l_button.clicked.connect(self.spectro_l_button_clicked)
         self.spectro_c_button.clicked.connect(self.spectro_c_button_clicked)
         self.spectro_r_button.clicked.connect(self.spectro_r_button_clicked)
-
         self.spectro_result_button.clicked.connect(self.spectro_result_button_clicked)
 
         self.feed_start_button.clicked.connect(self.StartFeed)
@@ -280,12 +270,14 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
+
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.label_11.setText(_translate("MainWindow", "Soil Moisture"))
         self.label_9.setText(_translate("MainWindow", "Humidity"))
         self.laBALL.setText(_translate("MainWindow", "Soil Temperature"))
+        self.label_10.setText(_translate("MainWindow", "Spectro Feed"))
         self.label_4.setText(_translate("MainWindow", "Right Box"))
         self.pump_l_button.setText(_translate("MainWindow", "PUMP"))
         self.label_2.setText(_translate("MainWindow", "Left Box"))
@@ -296,6 +288,7 @@ class Ui_MainWindow(object):
         self.pump_r_button.setText(_translate("MainWindow", "PUMP"))
         self.label_13.setText(_translate("MainWindow", "Soil Temperature"))
         self.label_7.setText(_translate("MainWindow", "Pressure"))
+        self.color_test_feed.setText(_translate("MainWindow", "Color Test Feed"))
         self.label_14.setText(_translate("MainWindow", "Soil Moisture"))
         self.pump_c_button.setText(_translate("MainWindow", "PUMP"))
         self.label_6.setText(_translate("MainWindow", "Soil Temperature"))
@@ -303,8 +296,7 @@ class Ui_MainWindow(object):
         self.spectro_c_button.setText(_translate("MainWindow", "SPECTRO"))
         self.spectro_r_button.setText(_translate("MainWindow", "SPECTRO"))
         self.spectro_result_button.setText(_translate("MainWindow", "SPECTRO EVAL"))
-        self.feed_start_button.setText(_translate("MainWindow", "START"))
-        self.feed_stop_button.setText(_translate("MainWindow", "PAUSE"))
+
 
     # Subscriber callback functions
     def bmp180_temperature_callback(self, data):
@@ -368,12 +360,9 @@ class Ui_MainWindow(object):
     def spectro_result_button_clicked(self):
         self.halogen_pub.publish(1)
         time.sleep(0.5)
+        self.StartFeed2()
         self.halogen_pub.publish(0)
-        time.sleep(0.5)
     
-    def ImageUpdateSlot(self, Image):
-        self.color_test_feed.setPixmap(QPixmap.fromImage(Image))
-
     def ImageUpdateSlot1(self, Image):
         self.color_test_feed.setPixmap(QPixmap.fromImage(Image))
 
@@ -404,13 +393,13 @@ class Worker1(QThread):
                 Image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
                 FlippedImage = cv2.flip(Image, 1)
                 ConvertToQtFormat = QImage(FlippedImage.data, FlippedImage.shape[1], FlippedImage.shape[0], QImage.Format_RGB888)
-                Pic = ConvertToQtFormat.scaled(481, 371, Qt.KeepAspectRatio)
+                Pic = ConvertToQtFormat.scaled(640, 480, Qt.KeepAspectRatio)
                 self.ImageUpdate.emit(Pic)
         Capture.release()
 
     def stop(self):
         self.ThreadActive = False
-        
+
 class Worker2(QThread):
     ImageUpdate = pyqtSignal(QImage)
     def run(self):
@@ -552,4 +541,4 @@ if __name__ == "__main__":
     ui = Ui_MainWindow(MainWindow)
     MainWindow.show()
     sys.exit(app.exec_())
-    rospy.spin()
+    rospy.spin()
