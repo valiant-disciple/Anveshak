@@ -1,0 +1,146 @@
+import sys
+from PyQt5.QtGui import *
+from PyQt5.QtWidgets import *
+from PyQt5.QtCore import *
+import cv2
+
+class MainWindow(QWidget):
+    def __init__(self):
+        super(MainWindow, self).__init__()
+
+        self.VBL = QVBoxLayout()
+
+        self.FeedLabel = QLabel()
+        self.VBL.addWidget(self.FeedLabel)
+
+        self.CancelBTN = QPushButton("Cancel")
+        self.CancelBTN.clicked.connect(self.CancelFeed)
+        self.VBL.addWidget(self.CancelBTN)
+
+        self.StartBTN = QPushButton("Start")
+        self.StartBTN.clicked.connect(self.StartFeed)
+        self.VBL.addWidget(self.StartBTN)
+
+        self.setLayout(self.VBL)
+
+    def ImageUpdateSlot1(self, Image):
+        self.FeedLabel.setPixmap(QPixmap.fromImage(Image))
+
+    def CancelFeed1(self):
+        self.Worker1.stop()
+
+    def StartFeed1(self):
+        self.Worker1 = Worker1()
+        self.Worker1.start()
+        self.Worker1.ImageUpdate.connect(self.ImageUpdateSlot1)
+    
+    def ImageUpdateSlot2(self, Image):
+        self.FeedLabel.setPixmap(QPixmap.fromImage(Image))
+
+    def CancelFeed2(self):
+        self.Worker2.stop()
+
+    def StartFeed2(self):
+        self.Worker2 = Worker2()
+        self.Worker2.start()
+        self.Worker2.ImageUpdate.connect(self.ImageUpdateSlot2)
+
+    def ImageUpdateSlot3(self, Image):
+        self.FeedLabel.setPixmap(QPixmap.fromImage(Image))
+
+    def CancelFeed3(self):
+        self.Worker3.stop()
+
+    def StartFeed3(self):
+        self.Worker3 = Worker3()
+        self.Worker3.start()
+        self.Worker3.ImageUpdate.connect(self.ImageUpdateSlot3)
+
+    def ImageUpdateSlot4(self, Image):
+        self.FeedLabel.setPixmap(QPixmap.fromImage(Image))
+
+    def CancelFeed4(self):
+        self.Worker4.stop()
+
+    def StartFeed4(self):
+        self.Worker4 = Worker4()
+        self.Worker4.start()
+        self.Worker4.ImageUpdate.connect(self.ImageUpdateSlot4)
+
+class Worker1(QThread):
+    ImageUpdate = pyqtSignal(QImage)
+    def run(self):
+        self.ThreadActive = True
+        Capture = cv2.VideoCapture(0)
+        while self.ThreadActive:
+            ret, frame = Capture.read()
+            if ret:
+                Image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+                FlippedImage = cv2.flip(Image, 1)
+                ConvertToQtFormat = QImage(FlippedImage.data, FlippedImage.shape[1], FlippedImage.shape[0], QImage.Format_RGB888)
+                Pic = ConvertToQtFormat.scaled(640, 480, Qt.KeepAspectRatio)
+                self.ImageUpdate.emit(Pic)
+        Capture.release()
+
+    def stop(self):
+        self.ThreadActive = False
+
+class Worker2(QThread):
+    ImageUpdate = pyqtSignal(QImage)
+    def run(self):
+        self.ThreadActive = True
+        Capture = cv2.VideoCapture(1)
+        while self.ThreadActive:
+            ret, frame = Capture.read()
+            if ret:
+                Image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+                FlippedImage = cv2.flip(Image, 1)
+                ConvertToQtFormat = QImage(FlippedImage.data, FlippedImage.shape[1], FlippedImage.shape[0], QImage.Format_RGB888)
+                Pic = ConvertToQtFormat.scaled(640, 480, Qt.KeepAspectRatio)
+                self.ImageUpdate.emit(Pic)
+        Capture.release()
+
+    def stop(self):
+        self.ThreadActive = False
+
+class Worker3(QThread):
+    ImageUpdate = pyqtSignal(QImage)
+    def run(self):
+        self.ThreadActive = True
+        Capture = cv2.VideoCapture(3)
+        while self.ThreadActive:
+            ret, frame = Capture.read()
+            if ret:
+                Image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+                FlippedImage = cv2.flip(Image, 1)
+                ConvertToQtFormat = QImage(FlippedImage.data, FlippedImage.shape[1], FlippedImage.shape[0], QImage.Format_RGB888)
+                Pic = ConvertToQtFormat.scaled(640, 480, Qt.KeepAspectRatio)
+                self.ImageUpdate.emit(Pic)
+        Capture.release()
+
+    def stop(self):
+        self.ThreadActive = False
+
+class Worker4(QThread):
+    ImageUpdate = pyqtSignal(QImage)
+    def run(self):
+        self.ThreadActive = True
+        Capture = cv2.VideoCapture(4)
+        while self.ThreadActive:
+            ret, frame = Capture.read()
+            if ret:
+                Image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+                FlippedImage = cv2.flip(Image, 1)
+                ConvertToQtFormat = QImage(FlippedImage.data, FlippedImage.shape[1], FlippedImage.shape[0], QImage.Format_RGB888)
+                Pic = ConvertToQtFormat.scaled(640, 480, Qt.KeepAspectRatio)
+                self.ImageUpdate.emit(Pic)
+        Capture.release()
+
+    def stop(self):
+        self.ThreadActive = False
+
+if __name__ == "__main__":
+    App = QApplication(sys.argv)
+    Root = MainWindow()
+    Root.show()
+    sys.exit(App.exec())
