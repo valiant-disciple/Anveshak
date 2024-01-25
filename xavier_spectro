@@ -4,28 +4,32 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 import cv2
 import numpy as np
+import rospy
 import matplotlib.pyplot as plt
+from std_msgs.msg import Int8
 import matplotlib
 from matplotlib.widgets import Slider
 import random
 
 class imgg():
-    def __init__(self):
+    def _init_(self):
         rospy.init_node('spectro_feed', anonymous = True)
         rospy.Subscriber('halo_status', Int8, self.halo_status_callback)
         self.Capture = cv2.VideoCapture(0)
+
     
     def halo_status_callback(self, data):
-        if data.data == 1:
+        if int(data.data) == 1:
+            print('called')
             self.Capture = cv2.VideoCapture(0)
             self.minwavelength = 380
             self.maxwavelength = 750
-            img1 = cv2.imread("C:\CFI\Anveshak\1.jpg")
+            img1 = cv2.imread("/home/om/1.jpeg")
             ret, img2 = self.Capture.read()
             if ret:
                 self.Capture.release()
                 # img2 = Image.fromarray(img2)
-                image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+                image = cv2.cvtColor(img2, cv2.COLOR_BGR2RGB)
                 shift_first_image_to_right = 10
                 self.Plot_Spectrum(img1, self.minwavelength, self.maxwavelength, shift_first_image_to_right)
                 frame = self.Plot_DifferenceSpectrum(img1, img2, self.minwavelength, self.maxwavelength, shift_first_image_to_right)
@@ -141,3 +145,4 @@ class imgg():
 
 if __name__ == "__main__":
     imgg = imgg()
+    rospy.spin()
