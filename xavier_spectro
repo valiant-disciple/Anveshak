@@ -12,7 +12,7 @@ from matplotlib.widgets import Slider
 import random
 
 class imgg():
-    def _init_(self):
+    def __init__(self):
         rospy.init_node('spectro_feed', anonymous = True)
         rospy.Subscriber('halo_status', Int8, self.halo_status_callback)
         self.Capture = cv2.VideoCapture(0)
